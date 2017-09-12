@@ -1,20 +1,145 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{title}}!
-  </h1>
-  <img width="300" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div class='body'>
+  <img src="./assets/blackjack.jpg">
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
 
+<div id="deck1">
+    <img src="./assets/cards/backcard.png" class="image">
+  </div>
+
+  <div id="deck2">
+    <img src="./assets/cards/backcard.png" class="image">
+  </div>
+
+<div id="base" [@start]="state">
+    <img src="./assets/cards/{{this.handJogador[0]}}" class="image" *ngIf="primeiraMao">
+</div>
+
+<div id="base" [@start]="stateDeal">
+    <img src="./assets/cards/{{this.handDeal[0]}}" class="image" *ngIf="primeiraMao">
+</div>
+
+<div id="base" [@start]="state2">
+  <img src="./assets/cards/{{this.handJogador[1]}}" class="image" *ngIf="primeiraMao">
+</div>
+
+
+<div id="base" [@start]="stateDeal2" *ngIf="primeiraMao">
+  <img src="./assets/cards/backcard.png" class="image" *ngIf="!show">
+  <img src="./assets/cards/{{this.handDeal[1]}}" class="image" *ngIf="show">
+</div>
+
+<div id="base" [@start]="stateDeal3">
+  <img src="./assets/cards/{{this.handDeal[2]}}" class="image" *ngIf="dealcarta3;">
+</div>
+<div id="base" [@start]="stateDeal4">
+  <img src="./assets/cards/{{this.handDeal[3]}}" class="image" *ngIf="dealcarta4;">
+</div>
+<div id="base" [@start]="stateDeal5">
+  <img src="./assets/cards/{{this.handDeal[4]}}" class="image" *ngIf="dealcarta5">
+</div>
+<div id="base" [@start]="stateDeal6">
+  <img src="./assets/cards/{{this.handDeal[5]}}" class="image" *ngIf="dealcarta6">
+</div>
+
+<div id="base" [@start]="state3">
+  <img src="./assets/cards/{{this.handJogador[2]}}" class="image" *ngIf="jogadorcarta3;">
+</div>
+<div id="base" [@start]="state4">
+  <img src="./assets/cards/{{this.handJogador[3]}}" class="image" *ngIf="jogadorcarta4;">
+</div>
+<div id="base" [@start]="state5">
+  <img src="./assets/cards/{{this.handJogador[4]}}" class="image" *ngIf="jogadorcarta5;">
+</div>
+<div id="base" [@start]="state6">
+  <img src="./assets/cards/{{this.handJogador[5]}}" class="image" *ngIf="jogadorcarta6;">
+</div>
+
+<div id="trash">
+  <img src="./assets/cards/backcard.png" class="image">
+</div>
+
+<div class="somaJogador" *ngIf="circulos">
+  <div class="circulo">
+    <div>{{ maoJogador }}</div>
+  </div>
+</div>
+
+<div class="somaDeal" *ngIf="circulos">
+  <div class="circulo">
+    <div>{{ maoDeal }}</div>
+  </div>
+</div>
+
+<div class="cartaPedir" (click)="pedir()" *ngIf="btnPedir">
+  <button class="btn">
+    Carta
+  </button>
+</div>
+
+<div class="parar">
+  <button class="btn" (click)="parar()" *ngIf="btnPedir">
+    Parar
+  </button>
+</div>
+
+<div class="apostar" (click)="apostar()" *ngIf="((apostado > 0) && (maoJogadorBool == false))">
+  <button class="btn">
+    Apostar
+  </button>
+</div>
+
+<div class="apostar" (click)="proximaRodada()" *ngIf="rodadaNext">
+  <button class="btn">
+    Próxima Rodada
+  </button>
+</div>
+
+<div id="mensagem" [ngClass]="type" *ngIf="messageBool">{{ message }}</div>
+
+<div class="dinheiro">
+  <div id="base" class="retangulo">
+    R$ &nbsp;&nbsp;{{dinheiroInicial}}
+  </div>
+</div>
+<div class="apostado">
+  <div id="base" class="retangulo">
+    Apostado&nbsp;R$&nbsp;&nbsp;{{apostado}}
+  </div>
+</div>
+
+<div class="desfazer" (click)="desfazer()" *ngIf="((apostado > 0) && (maoJogadorBool == false))">
+    <button class="btn">
+      Desfazer aposta
+    </button>
+  </div>
+
+<div id="base" class="chip1" (click)="apostando(1)" *ngIf="hum">
+  <img src="./assets/chips/01.png" class="chip">
+</div>
+<div id="base" class="chip5" (click)="apostando(5)" *ngIf="cinco">
+  <img src="./assets/chips/05.png" class="chip">
+</div>
+<div id="base" class="chip10" (click)="apostando(10)" *ngIf="dez">
+  <img src="./assets/chips/10.png" class="chip">
+</div>
+<div id="base" class="chip25" (click)="apostando(25)" *ngIf="vintecinco">
+  <img src="./assets/chips/25.png" class="chip">
+</div>
+<div id="base" class="chip50" (click)="apostando(50)" *ngIf="cinquenta">
+  <img src="./assets/chips/50.png" class="chip">
+</div>
+<div id="base" class="chip100" (click)="apostando(100)" *ngIf="cem">
+  <img src="./assets/chips/100.png" class="chip">
+</div>
+<div id="base" class="chip500" (click)="apostando(500)" *ngIf="quinhentos">
+  <img src="./assets/chips/500.png" class="chip">
+</div>
+<div id="base" class="chip1000" (click)="apostando(1000)" *ngIf="mil">
+  <img src="./assets/chips/1000.png" class="chip">
+</div>
+<div id="base" class="chip5000" (click)="apostando(5000)" *ngIf="cincomil">
+  <img src="./assets/chips/5000.png" class="chip">
+</div>
+<div id="base" class="chip10000" (click)="apostando(10000)" *ngIf="dezmil">
+  <img src="./assets/chips/10000.png" class="chip">
+</div>
